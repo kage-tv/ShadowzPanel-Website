@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC-Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            user-select: none;
+        }
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe
+        src="https://crummy-baboon-idealist.ngrok-free.dev/login"
+        allowfullscreen
+        loading="eager"
+        referrerpolicy="no-referrer"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms">
+    </iframe>
+
+    <script>
+        // === Anti-Inspect & Anti-DevTools Protection ===
+       
+        // Disable Right Click
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // Disable Keyboard Shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "F12" ||
+                (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "C" || e.key === "J")) ||
+                (e.ctrlKey && e.key === "u") ||
+                (e.ctrlKey && e.key === "s")) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // DevTools Detection
+        let devtoolsOpen = false;
+        const threshold = 160;
+
+        function detectDevTools() {
+            const widthDiff = window.outerWidth - window.innerWidth;
+            const heightDiff = window.outerHeight - window.innerHeight;
+            if (widthDiff > threshold || heightDiff > threshold) {
+                if (!devtoolsOpen) {
+                    devtoolsOpen = true;
+                    triggerAntiDebug();
+                }
+            } else {
+                devtoolsOpen = false;
+            }
+        }
+
+        function triggerAntiDebug() {
+            document.body.style.cssText = `
+                background: #000;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                font-family: Arial, sans-serif;
+                text-align: center;
+            `;
+            document.body.innerHTML = `
+                <div>
+                    <h1 style="color:#ff4444; font-size: 2.5rem;">Nice Try 👀</h1>
+                    <p style="margin-top: 20px; font-size: 1.2rem;">Developer tools are not allowed on this site.</p>
+                    <p id="timer" style="margin-top: 30px; opacity: 0.8;">Refreshing in 3 seconds...</p>
+                </div>
+            `;
+
+            let timeLeft = 3;
+            const timerEl = document.getElementById('timer');
+
+            const countdown = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = `Refreshing in ${timeLeft} seconds...`;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    location.reload();
+                }
+            }, 1000);
+        }
+
+        // Run detection frequently
+        setInterval(detectDevTools, 300);
+
+        // Additional protections
+        Object.defineProperty(console, 'log', { get: () => () => {} });
+        Object.defineProperty(console, 'debug', { get: () => () => {} });
+        Object.defineProperty(console, 'warn', { get: () => () => {} });
+        Object.defineProperty(console, 'error', { get: () => () => {} });
+
+        // Prevent iframe breakout
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+
+        // Final touch
+        console.log = () => {};
+        console.clear = () => {};
+    </script>
+</body>
+</html>
