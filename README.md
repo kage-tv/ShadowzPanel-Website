@@ -1,6 +1,6 @@
-# Shadowz Minecraft Hosting
+# Shadowz Panel - Minecraft Hosting
 
- **Shadowz** is a private Minecraft hosting panel powered by **Pterodactyl**, built for managing Minecraft servers easily.
+ **Shadowz Panel** is a private Minecraft hosting panel powered by **Pterodactyl**, built for managing Minecraft servers easily.
 
 The panel provides server management features such as console access, file management, server controls, resource monitoring, and configuration management.
 
