@@ -18,4 +18,4 @@ Shadowz is designed to keep Minecraft servers running **24/7**, making it suitab
 * 24/7 server operation
 * Easy server controls
 
-** Shadowz — Simple and Private Minecraft Server Management.**
+#Shadowz — Simple and Private Minecraft Server Management.
